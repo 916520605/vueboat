@@ -328,13 +328,20 @@ export default {
 
     },
     inputBlur(){
-      axios.get("/dock/unique/"+this.form.dockCode).then((res)=>{
-        console.log(res)
-        if (res.data!==''){
-          if (res.data.dockId != this.form.dockId){
-            this.$message.error("码头编码已存在，请重新输入")
-            this.$refs['dockCode'].resetField()
-          }
+      this.$refs['dockCode'].validate((valid) => {
+        if (valid) {
+          axios.get("/dock/unique/" + this.form.dockCode).then((res) => {
+            console.log(res)
+            if (res.data !== '') {
+              if (res.data.dockId != this.form.dockId) {
+                this.$message.error("码头编码已存在，请重新输入")
+                this.$refs['dockCode'].resetField()
+              }
+            }
+          })
+        } else {
+          this.$message.error("请检查表单数据是否合法")
+          return false;
         }
       })
     },
@@ -491,23 +498,73 @@ export default {
       });
     },
     update(index, row) {
-
       this.title='修改码头'
       this.dialogVisible=true
-      axios.get("/dock/"+row.id).then((res)=>{
-        this.form=res.data
-        this.form1.dockName=res.data.dockName
-        this.form1.dockCode=res.data.dockCode
-        this.form1.dockId=res.data.dockId
-      })
+      if (row === undefined){
+        axios.get("/dock/"+this.ids).then((res)=>{
+          this.form=res.data
+          this.form1.dockName=res.data.dockName
+          this.form1.dockCode=res.data.dockCode
+          this.form1.dockId=res.data.dockId
+        })
+      }else {
+        axios.get("/dock/"+row.id).then((res)=>{
+          this.form=res.data
+          this.form1.dockName=res.data.dockName
+          this.form1.dockCode=res.data.dockCode
+          this.form1.dockId=res.data.dockId
+        })
+      }
+
 
     },
     addByOne() {
+
       this.form.dockId=undefined
       this.form.id=undefined
       this.title = '新增码头'
       this.dialogVisible2 = true
 
+
+    },
+    deleteByIds(index, row) {
+      //console.log(index)
+      // console.log(row)
+      console.log(this.ids)
+
+      // console.log(shipIds)
+      this.$confirm('此操作将永久删除该信息, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }).then(() => {
+        if (row==undefined ||row.id==undefined){
+          axios.delete("/dock/delete/" + this.ids).then((res) => {
+            console.log(res)
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+            this.getAll()
+          })
+        }else {
+          axios.delete("/dock/delete/" + row.id).then((res) => {
+            console.log(res)
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+            this.getAll()
+          })
+        }
+
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
     },
   },
 }
