@@ -85,7 +85,7 @@
 import Breadcrumb from '../../components/Breadcrumb'
 
 export default {
-  name: "Welcome",
+  name: "Index",
   components:{
     Breadcrumb
   },

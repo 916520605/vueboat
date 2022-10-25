@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Welcome from "../views/home/home";
+import home from "../views/home/home";
 import Index from "../views/layout";
 import BaseBoat from "../views/baseboat/BaseBoat";
 import Nationality from "../views/system/Nationality";
@@ -31,7 +31,7 @@ export default new Router({
         {
           path : 'home',
           name:'首页',
-          component:Welcome
+          component:home
 
         },
 

@@ -116,6 +116,7 @@
       :visible.sync="dialogVisible"
       :close-on-click-modal="modal"
       width="20%"
+      :before-close="close"
     >
       <el-tabs type="border-card">
         <el-tab-pane label="码头管理">
@@ -198,7 +199,7 @@
             <el-form-item label="泊位编码" prop="portCode" ref="portCode1" :rules="[{ required:true, message: '码头编码不能为空'},{pattern:/^\d+$/,message:'码头编码必须为数字'}]">
               <el-input v-model="form1.portCode" @blur="inputBlur2"></el-input>
             </el-form-item>
-            <el-form-item label="泊位吃水" >
+            <el-form-item label="泊位吃水" prop="portDraft" ref="portDraft">
               <el-input v-model="form1.portDraft"></el-input>
             </el-form-item>
 
@@ -221,6 +222,7 @@
       :visible.sync="dialogVisible2"
       :close-on-click-modal="modal"
       width="20%"
+      :before-close="close"
     >
       <el-tabs type="border-card">
         <el-tab-pane label="码头管理">
@@ -246,7 +248,7 @@
             <div style="text-align: center">
               <el-form-item>
                 <el-button type="primary" @click="onSubmit('form')">保存</el-button>
-                <el-button @click="cancel">取消</el-button>
+                <el-button @click="cancel1">取消</el-button>
               </el-form-item>
             </div>
           </el-form>
@@ -328,8 +330,6 @@ export default {
 
     },
     inputBlur(){
-      this.$refs['dockCode'].validate((valid) => {
-        if (valid) {
           axios.get("/dock/unique/" + this.form.dockCode).then((res) => {
             console.log(res)
             if (res.data !== '') {
@@ -339,11 +339,6 @@ export default {
               }
             }
           })
-        } else {
-          this.$message.error("请检查表单数据是否合法")
-          return false;
-        }
-      })
     },
     inputBlur1(){
       axios.get("/dock/uniqueP/"+this.form.portCode).then((res)=>{
@@ -406,7 +401,7 @@ export default {
                 message: '已取消新增'
               });
               this.dialogVisible1=false
-              this.reset()
+              this.$refs['form1'].resetFields()
             });
 
 
@@ -424,15 +419,29 @@ export default {
       })
     },
     reset(){
-      this.$refs['form'].resetFields()
-      this.$refs['form1'].resetFields()
+      this.$refs['form'].resetFields() || this.$refs['form1'].resetFields()
+
 
     },
     cancel(){
       this.dialogVisible=false
       this.dialogVisible1=false
-      this.dialogVisible2=false
       this.reset()
+
+    },
+    cancel1(){
+      this.$refs['form'].resetFields()
+      this.dialogVisible2=false
+      this.form.dockId=undefined
+      this.form.id=undefined
+    },
+    close(){
+      this.$refs['form'].resetFields()
+      this.dialogVisible2=false
+      this.dialogVisible1=false
+     this.dialogVisible=false
+      this.form.dockId=undefined
+      this.form.id=undefined
     },
     getAll() {
       this.loading = true
@@ -524,7 +533,6 @@ export default {
       this.form.id=undefined
       this.title = '新增码头'
       this.dialogVisible2 = true
-
 
     },
     deleteByIds(index, row) {
