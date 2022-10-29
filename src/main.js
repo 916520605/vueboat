@@ -7,12 +7,17 @@ import router from './router'
 import ElementUI from 'element-ui' //element-ui的全部组件
 import 'element-ui/lib/theme-chalk/index.css'//element-ui的css
 import axios from 'axios';
+/*import './assets/styles/element-variables.scss'
+
+import './assets/styles/index.scss' // global css
+import './assets/styles/ruoyi.scss' // ruoyi css*/
 
 Vue.use(ElementUI) //使用elementUI
 Vue.config.productionTip = false
 Vue.prototype.axios = axios
 Vue.config.productionTip=false
 axios.defaults.baseURL='http://localhost:8080'
+axios.defaults.timeout=3000
 /*Vue.prototype.$http=axios*/
 /* eslint-disable no-new */
 new Vue({

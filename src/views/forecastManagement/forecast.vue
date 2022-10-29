@@ -41,21 +41,90 @@
     </el-dialog>
     <el-table
       :data="tableData"
+      style="width: 100%"
       stripe
-      style="width: 100%">
+      @selection-change="handleSelectionChange">
       <el-table-column
-        prop="date"
-        label="日期"
-        width="180">
+        type="selection"
+        width="55">
+      </el-table-column>
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-form label-position="left" inline class="demo-table-expand">
+            <el-form-item label="船名">
+              <span>{{ props.row.shipName }}</span>
+            </el-form-item>
+            <el-form-item label="IMO号">
+              <span>{{ props.row.imo }}</span>
+            </el-form-item>
+            <el-form-item label="呼号">
+              <span>{{ props.row.callNumber }}</span>
+            </el-form-item>
+            <el-form-item label="国籍">
+              <span>{{ props.row.nationality }}</span>
+            </el-form-item>
+            <el-form-item label="建成日期">
+              <span>{{ props.row.builtDate }}</span>
+            </el-form-item>
+            <el-form-item label="船长">
+              <span>{{ props.row.length }}</span>
+            </el-form-item>
+            <el-form-item label="船宽">
+              <span>{{ props.row.width }}</span>
+            </el-form-item>
+            <el-form-item label="总吨">
+              <span>{{ props.row.grossTonnage }}</span>
+            </el-form-item>
+            <el-form-item label="净吨">
+              <span>{{ props.row.netTons }}</span>
+            </el-form-item>
+            <el-form-item label="载重吨">
+              <span>{{ props.row.DWT }}</span>
+            </el-form-item>
+            <el-form-item label="船籍港">
+              <span>{{ props.row.homePort }}</span>
+            </el-form-item>
+            <el-form-item label="电话（海卫通）">
+              <span>{{ props.row.phoneNumber }}</span>
+            </el-form-item>
+            <el-form-item label="船东">
+              <span>{{ props.row.shipOwner }}</span>
+            </el-form-item>
+          </el-form>
+        </template>
       </el-table-column>
       <el-table-column
-        prop="name"
-        label="姓名"
-        width="180">
+        label="船名"
+        prop="shipName">
       </el-table-column>
       <el-table-column
-        prop="address"
-        label="地址">
+        label="IMO号"
+        prop="imo">
+      </el-table-column>
+      <el-table-column
+        label="国籍"
+        prop="nationality">
+      </el-table-column>
+      <el-table-column
+        label="船东"
+        prop="shipOwner">
+      </el-table-column>
+      <el-table-column
+        label="录入时间"
+        prop="creatTime">
+      </el-table-column>
+      <el-table-column
+        label="操作">
+        <template slot-scope="scope">
+          <el-tooltip content="删除" placement="top">
+            <el-button type="danger" icon="el-icon-delete" circle size="mini"
+                       @click="deleteByIds(scope.$index, scope.row)"></el-button>
+          </el-tooltip>
+          <el-tooltip content="编辑" placement="top">
+            <el-button type="primary" icon="el-icon-edit" circle size="mini"
+                       @click="update(scope.$index, scope.row)"></el-button>
+          </el-tooltip>
+        </template>
       </el-table-column>
       <div slot="empty" style="text-align: left;">
         <el-empty description="哎呀，你是不是忘记查询啦！"/>
@@ -77,8 +146,8 @@ export default {
         shipName: '',
         imo: '',
       },
-      gridData:{},
-      tableData:{},
+      gridData:[{}],
+      tableData:[{}],
       dialogTableVisible:false
     }
   },
@@ -96,6 +165,8 @@ export default {
     },
     add(row){
       console.log(row)
+      this.dialogTableVisible=false
+      this.tableData.push(row)
     }
   },
 }

@@ -145,9 +145,7 @@ export default {
         portCode:'',
         portName:'',
       },
-      tableData:{
-
-      },
+      tableData:[{}],
       pageNum: 1, //当前页
       pageSize: 10,//每一页多少条肌理
       total: 0,//总页数

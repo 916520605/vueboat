@@ -35,7 +35,7 @@
             <el-menu-item index="forecastManagement" >预报管理</el-menu-item>
             <el-menu-item index="AllBoat" >确报管理</el-menu-item>
         </el-submenu>
-        <el-submenu index="inPortManagement">
+        <el-submenu index="atPortManagement">
           <template slot="title">
             <i class="el-icon-location"></i>
             <span >在港管理</span>
@@ -50,8 +50,16 @@
           </template>
           <el-menu-item index="nationality" >国籍管理</el-menu-item>
           <el-menu-item index="wordPort" >港口管理</el-menu-item>
-          <el-menu-item index="dock">码头管理</el-menu-item>
-          <el-menu-item index="2-3">供应商管理</el-menu-item>
+
+          <el-submenu index="supplier">
+            <template slot="title">
+              <span >供应商管理</span>
+            </template>
+            <el-menu-item index="pilotsation">引航站</el-menu-item>
+            <el-menu-item index="tugcompany">拖轮公司</el-menu-item>
+            <el-menu-item index="dock">码头</el-menu-item>
+            <el-menu-item index="1-4-1">其他</el-menu-item>
+          </el-submenu>
           <el-menu-item index="2-3">委托方管理</el-menu-item>
         </el-submenu>
         <el-menu-item index="4">

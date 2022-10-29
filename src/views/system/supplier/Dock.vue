@@ -40,9 +40,6 @@
       <el-col :span="1.5">
         <el-button type="warning" size="small" plain icon="el-icon-download">导出</el-button>
       </el-col>
-      <el-col :span="1.5" :offset="17">
-        <el-button type="info" size="small" plain icon="el-icon-delete-solid">已删</el-button>
-      </el-col>
     </el-row>
     <!--  数据部分-->
     <el-table

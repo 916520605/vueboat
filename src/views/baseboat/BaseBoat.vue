@@ -47,14 +47,15 @@
       <el-col :span="1.5">
         <el-button type="warning" size="small" plain icon="el-icon-download">导出</el-button>
       </el-col>
-      <el-col :span="1.5" :offset="17">
-        <el-button type="info" size="small" plain icon="el-icon-delete-solid">已删</el-button>
-      </el-col>
+
     </el-row>
     <!--中间表格数据 -->
     <el-table
       :data="tableData"
       style="width: 100%"
+      v-loading="loading"
+      element-loading-text="加载中"
+      element-loading-spinner="el-icon-loading"
       stripe
       @selection-change="handleSelectionChange">
       <el-table-column
@@ -316,11 +317,20 @@ export default {
   },
   methods: {
     getAll() {
-      axios.post("http://localhost:8080/baseShip/list/" + this.pageNum + '/' + this.pageSize, this.queryParams).then((res) => {
-        console.log(res)
-        this.tableData = res.data.list
-        this.total = res.data.total
-      })
+      this.loading=true
+      setTimeout(()=>{
+        axios.post("http://localhost:8080/baseShip/list/" + this.pageNum + '/' + this.pageSize, this.queryParams).then((res) => {
+          console.log(res)
+          this.tableData = res.data.list
+          this.total = res.data.total
+          this.loading=false
+        }).catch(error=>{
+          this.$router.push({
+            path: "404error"//要跳转的页面的路由
+          });
+        })
+      },500)
+
     },
     getNationality(query) {
       axios.post("http://localhost:8080/nationality/list", {
