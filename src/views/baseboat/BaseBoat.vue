@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div v-loading="loading"
+       element-loading-text="加载中"
+       element-loading-spinner="el-icon-loading">
     <!--搜索功能  -->
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="90px">
       <el-form-item label="船名" prop="shipName">
@@ -47,15 +49,21 @@
       <el-col :span="1.5">
         <el-button type="warning" size="small" plain icon="el-icon-download">导出</el-button>
       </el-col>
-
+      <el-col :span="1.5" >
+        <el-button
+          v-show="this.$route.query.baseShip != undefined"
+          type="warning"
+          plain
+          icon="el-icon-back"
+          size="small"
+          @click="handleBack"
+        >返回</el-button>
+      </el-col>
     </el-row>
     <!--中间表格数据 -->
     <el-table
       :data="tableData"
       style="width: 100%"
-      v-loading="loading"
-      element-loading-text="加载中"
-      element-loading-spinner="el-icon-loading"
       stripe
       @selection-change="handleSelectionChange">
       <el-table-column
@@ -305,6 +313,14 @@ export default {
   },
   created() {
     this.getAll()
+
+    let baseShip=this.$route.query.baseShip
+    if (baseShip!=undefined){
+      //this.tableData=baseShip
+      this.queryParams.shipName=baseShip.shipName
+      this.queryParams.imo=baseShip.imo
+    }
+
   },
 
   mounted() {
@@ -316,6 +332,9 @@ export default {
     });
   },
   methods: {
+    handleBack(){
+      this.$router.back()
+    },
     getAll() {
       this.loading=true
       setTimeout(()=>{
@@ -424,7 +443,7 @@ export default {
         type: 'warning',
       }).then(() => {
         if (row==undefined ||row.id==undefined){
-          axios.delete("http://localhost:8080/baseShip/delete/" + this.ids).then((res) => {
+          axios.delete("/forecast/baseShip/delete/" + this.ids).then((res) => {
             console.log(res)
             this.$message({
               type: 'success',
@@ -433,7 +452,7 @@ export default {
             this.getAll()
           })
         }else {
-          axios.delete("http://localhost:8080/baseShip/delete/" + row.id).then((res) => {
+          axios.delete("/forecast/baseShip/delete/" + row.id).then((res) => {
             console.log(res)
             this.$message({
               type: 'success',
@@ -523,7 +542,7 @@ export default {
               this.getAll()
             })
           } else {//有id属性则是修改
-            axios.put("http://localhost:8080/baseShip/update", this.form).then((res) => {
+            axios.put("/forecast/baseShip/update", this.form).then((res) => {
               console.log(res)
               this.$message.success("修改成功")
               this.dialogVisible = false

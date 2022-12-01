@@ -50,7 +50,7 @@
           </template>
           <el-menu-item index="nationality" >国籍管理</el-menu-item>
           <el-menu-item index="wordPort" >港口管理</el-menu-item>
-
+          <el-menu-item index="dictionary" >字典管理</el-menu-item>
           <el-submenu index="supplier">
             <template slot="title">
               <span >供应商管理</span>
@@ -58,9 +58,9 @@
             <el-menu-item index="pilotsation">引航站</el-menu-item>
             <el-menu-item index="tugcompany">拖轮公司</el-menu-item>
             <el-menu-item index="dock">码头</el-menu-item>
-            <el-menu-item index="1-4-1">其他</el-menu-item>
+
           </el-submenu>
-          <el-menu-item index="2-3">委托方管理</el-menu-item>
+          <el-menu-item index="delegation">委托方管理</el-menu-item>
         </el-submenu>
         <el-menu-item index="4">
           <i class="el-icon-setting"></i>
@@ -75,13 +75,8 @@
     <el-container>
       <el-header style="text-align: center; font-size: 16px">
         <span class="one">欢迎来到朱哥船舶管理系统 </span>
-
-
       </el-header>
-
       <Breadcrumb></Breadcrumb>
-
-
       <el-main>
         <router-view></router-view>
       </el-main>
@@ -90,7 +85,7 @@
 </template>
 
 <script>
-import Breadcrumb from '../../components/Breadcrumb'
+import Breadcrumb from '../../components/Breadcrumb/Breadcrumb'
 
 export default {
   name: "Index",

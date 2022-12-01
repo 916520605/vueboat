@@ -322,8 +322,6 @@ export default {
             this.getAll()
           })
         }
-
-
       }).catch(() => {
         this.$message({
           type: 'info',
