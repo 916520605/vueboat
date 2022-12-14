@@ -2,15 +2,11 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import System from './views/system/System'
 import router from './router'
 import ElementUI from 'element-ui' //element-ui的全部组件
 import 'element-ui/lib/theme-chalk/index.css'//element-ui的css
 import axios from 'axios';
-/*import './assets/styles/element-variables.scss'
-
-import './assets/styles/index.scss' // global css
-import './assets/styles/ruoyi.scss' // ruoyi css*/
+import store from './store/index'
 
 Vue.use(ElementUI) //使用elementUI
 Vue.config.productionTip = false
@@ -23,6 +19,7 @@ axios.defaults.timeout=3000
 new Vue({
   el: '#app',
   router,
+  store,
   render(h){
     return h(App)
   }

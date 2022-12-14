@@ -18,7 +18,6 @@ import Error500 from "../views/error/500";
 import Dictionary from "../views/system/Dictionary";
 import DictData from "../views/system/DictData";
 import Delegation from "../views/delegation/Delegation";
-import MoreInfo from "../views/forecastManagement/MoreInfoForecast"
 
 Vue.use(Router);
 
@@ -66,13 +65,7 @@ export default new Router({
           hidde:true,
           meta: {title: "字典数据"}
         },
-        {
-          path:'moreInfo',
-          component:MoreInfo,
-          name:'预抵详情',
-          hidde: true,
-          meta:{title: '预抵详情'}
-        },
+        
         {
           path: 'baseboat',
           name: '船舶信息',

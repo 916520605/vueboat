@@ -432,8 +432,7 @@ export default {
       this.getAll()
     },
     deleteByIds(index, row) {
-      //console.log(index)
-      // console.log(row)
+     
       console.log(this.ids)
 
       // console.log(shipIds)

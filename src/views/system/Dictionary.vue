@@ -132,12 +132,12 @@
         <el-form-item label="字典名称" prop="dictName">
           <el-input v-model="form.dictName" placeholder="请输入字典名称" />
         </el-form-item>
-        <el-form-item label="字典类型" prop="type">
-          <el-input v-model="form.type" placeholder="请输入字典类型" />
+        <el-form-item label="字典类型" prop="type" >
+          <el-input v-model="form.type" placeholder="请输入字典类型" disabled/>
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-radio-group v-model="form.status">
-            <el-radio v-for="item in this.options" :key="item.value"
+            <el-radio v-for="item in options" :key="item.value"
                       :label="item.value">{{item.label}}</el-radio>
           </el-radio-group>
         </el-form-item>
@@ -212,9 +212,9 @@ export default {
       this.getAll()
     },
     resetQuery() {
-      this.queryParams.dictName = undefined,
-        this.queryParams.type = undefined,
-        this.queryParams.status = undefined,
+      this.queryParams.dictName = undefined
+        this.queryParams.type = undefined
+        this.queryParams.status = undefined
         this.queryParams.starTime = undefined
       this.queryParams.endTime = undefined
       this.daterange=undefined
