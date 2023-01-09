@@ -81,8 +81,10 @@
             <el-form-item label="靠泊泊位">
               <span>{{ props.row.port }}</span>
             </el-form-item>
-            <el-form-item label="来港目的">
-              <span>{{ props.row.purpose }}</span>
+            <el-form-item label="来港目的" >
+              <template v-for="item in $store.state.purpose">
+                  <span v-if="item.itemValue == props.row.purpose">{{ item.itemText }}</span>
+              </template>
             </el-form-item>
             <el-form-item label="货物名称">
               <span>{{ props.row.goodsName }}</span>
@@ -291,6 +293,7 @@ export default {
   },
   created() {
     this.getForecastList()
+    this.getPurpose()
   },
   methods: {
     getBaseBoatList() {
@@ -429,7 +432,7 @@ export default {
           console.log(res);
        
           this.portOptions = res.data.data
-          
+          this.chufa()
         })
          
       } else {
