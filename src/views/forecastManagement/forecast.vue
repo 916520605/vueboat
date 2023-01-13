@@ -75,8 +75,11 @@
             <el-form-item label="下一港">
               <span>{{ props.row.nextPort }}</span>
             </el-form-item>
-            <el-form-item label="靠泊码头">
-              <span>{{ props.row.dock }}</span>
+            <el-form-item label="拖轮公司">
+              <span>{{ props.row.tugCompany }}</span>
+            </el-form-item>
+            <el-form-item label="拖轮">
+              <span>{{ props.row.tug }}</span>
             </el-form-item>
             <el-form-item label="靠泊泊位">
               <span>{{ props.row.port }}</span>
@@ -98,9 +101,7 @@
             <el-form-item label="引航站">
               <span>{{ props.row.pilotStation }}</span>
             </el-form-item>
-            <el-form-item label="拖轮公司">
-              <span>{{ props.row.tugCompany }}</span>
-            </el-form-item>
+
             <el-form-item label="代理">
               <span>{{ props.row.delegation }}</span>
             </el-form-item>
@@ -123,7 +124,7 @@
       </el-table-column>
       <el-table-column label="预离时间" prop="poreLeaveTime" align="center">
       </el-table-column>
-      <el-table-column label="拖轮" prop="tug" align="center">
+      <el-table-column label="靠泊码头" prop="dock" align="center">
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -168,7 +169,7 @@
 
 
 <!-- 修改弹出框 -->
-<el-dialog :title="title" :visible.sync="updatedialog" width="30%" append-to-body>
+<el-dialog :title="title" :visible.sync="updateDialog" width="30%" append-to-body>
   <el-form ref="form"  :model="form" :rules='rules' label-width="120px" >
     <el-form-item label="航次" prop="voyage">
       <el-input v-model="form.voyage" clearable placeholder="请输入航次" style="width: 220px"></el-input>
@@ -200,7 +201,7 @@
       </el-date-picker>
     </el-form-item>
     <el-form-item label="靠泊码头及泊位">
-      <el-select v-model="form.dock" filterable clearable placeholder="请选择码头" style="width:120px ;" @focus="getDocks" @change="changeport"
+      <el-select v-model="form.dock" filterable clearable placeholder="请选择码头" style="width:120px ;" @focus="getDocks" @change="changePort"
         >
         <el-option v-for="item in $store.state.dock" :key="item.dockId
         " :label="item.dockName" :value="item.dockId" />
@@ -254,7 +255,7 @@
       <el-button type="info" @click="restForm">重置</el-button>
     </el-form-item>
   </el-form>
-  
+
 </el-dialog>
   </div>
 </template>
@@ -266,18 +267,18 @@ export default {
   name: "forecast",
   data() {
     return {
-      
+
       queryParams: {},
       queryParams1: {},
       single: true, //修改按钮默认是false，只有是一个的时候才是true
       multiple: true,
-      multipleSelection: [], 
+      multipleSelection: [],
       title: '',
       total: 0,
       total1: 0,
       ids:[],
       open: false,
-      updatedialog: false,
+      updateDialog: false,
       loading: true,
       dataList: [],
       tableData: [],
@@ -285,7 +286,7 @@ export default {
       pageNum1: 1,
       pageSize1: 10,
       pageSize: 10,
-      
+
       portOptions: [],
       form: {},
       formData:{}
@@ -312,7 +313,7 @@ export default {
     onSubmit() {
       console.log(this.form);
     },
-    
+
     handleQuery() {
       this.getForecastList()
     },
@@ -402,10 +403,10 @@ export default {
     },
 
     handleUpdate(row) {
-      this.updatedialog = true
+      this.updateDialog = true
       this.title = "修改预抵信息"
       axios.get("/forecast/selectById?id=" + row.id).then(res => {
-       
+
         this.form = res.data.data
       })
       this.chufa()
@@ -420,31 +421,32 @@ export default {
     },
     getDocks() {
       this.$store.dispatch('getAllDock')
-      
+
     },
-    changeport() {
-      
-      
+    changePort() {
+
+
       this.portOptions = []
-     
+
       if (this.form.dock !='') {
         axios.get('/dock/portList?dockId=' + this.form.dock).then(res => {
           console.log(res);
-       
+
           this.portOptions = res.data.data
-          this.chufa()
+          // 当码头的值发生变化时，泊位默认选择第一泊位
+          this.form.port=this.portOptions[0].id
         })
-         
+
       } else {
         this.form.port=''
       }
-     
-     
-     
+
+
+
 
     },
   }
-    
+
 }
 </script>
 
