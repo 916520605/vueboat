@@ -33,33 +33,6 @@
 
     </el-row>
 
-    <!-- <el-table v-loading="loading" :data="tableData" @selection-change="handleSelectionChange" :header-cell-style="{
-      background: '#f8f8f9'
-    }" style="margin-top: 10px">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="船名" align="center" prop="shipName">
-        <template slot-scope="scope">
-          <router-link :to="{ name: '船舶信息', query: { baseShip: scope.row } }" class="link-type">
-            <span>{{ scope.row.shipName }}</span>
-          </router-link>
-        </template>
-      </el-table-column>
-      <el-table-column label="IMO号" align="center" prop="imo" />
-      <el-table-column label="航次" align="center" prop="voyage" />
-      <el-table-column label="预抵详情" align="center">
-        <template slot-scope="scope">
-          <router-link :to="{ name: '预抵详情', query: { baseShip: scope.row.id } }" class="link-type">
-            <span>更多</span>
-          </router-link>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改</el-button>
-          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table> -->
     <el-table :data="tableData" v-loading="loading"  @selection-change="handleSelectionChange" :header-cell-style="{
       background: '#f8f8f9'
     }" style="margin-top: 10px">
